@@ -20,6 +20,10 @@ public record FootballDataClient(AreaUseCase area,
                                  PersonUseCase person,
                                  CompetitionUseCase competition) {
 
+    public static FootballDataClientBuilder builder() {
+        return new FootballDataClientBuilder();
+    }
+
     public static final class FootballDataClientBuilder {
         HttpConnector httpConnector;
         TokenRegistry tokenRegistry = new InMemoryTokenRegistry();

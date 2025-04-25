@@ -27,6 +27,6 @@ public class AreaService implements AreaUseCase {
 
     @Override
     public Optional<Area> findByAreaId(long areaId) {
-        return webClientService.GET(String.format("/areas/%s", areaId), Area.class);
+        return webClientService.GET("/areas/" + areaId, Area.class);
     }
 }

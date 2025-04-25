@@ -8,7 +8,7 @@ public abstract class UseCaseTest {
 
     protected final HttpConnector httpConnector = Mockito.mock(HttpConnector.class);
 
-    protected final FootballDataClient footballDataHttpClient = new FootballDataClient.FootballDataClientBuilder()
+    protected final FootballDataClient footballDataHttpClient =  FootballDataClient.builder()
             .httpConnector(httpConnector)
             .addToken("token1")
             .build();

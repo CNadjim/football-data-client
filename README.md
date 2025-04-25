@@ -1,20 +1,15 @@
 # Football Data Client
 
-A Java client library for accessing football data through a REST API. This client provides a simple and intuitive
-interface to retrieve information about football areas, teams, matches, players, and competitions.
+A Java client library for accessing football data through a Football Data REST API (https://docs.football-data.org/general/v4/resources.html)
 
 ## Features
 
-- Access to football data through a clean API
 - Support for multiple endpoints:
-    - Areas (countries/regions)
+    - Areas
     - Teams
     - Matches
-    - Players/Persons
+    - Persons
     - Competitions
-- Token-based authentication
-- Customizable HTTP connector
-- Built with Java 21
 
 ## Requirements
 
@@ -40,15 +35,7 @@ Add the following dependency to your Maven project:
 
 ```java
 // Create a client with default settings
-FootballDataClient client = new FootballDataClient.FootballDataClientBuilder()
-                .addToken("your-api-token")
-                .build();
-
-// Or with a custom HTTP connector
-FootballDataClient client = new FootballDataClient.FootballDataClientBuilder()
-        .addToken("your-api-token")
-        .httpConnector(customHttpConnector)
-        .build();
+FootballDataClient client = FootballDataClient.builder().addToken("your-api-token").build();
 ```
 
 ### Retrieving data
@@ -57,22 +44,28 @@ FootballDataClient client = new FootballDataClient.FootballDataClientBuilder()
 // Get all areas
 Collection<Area> areas = client.area().findAll();
 
-// Get a specific area by ID
-Optional<Area> england = client.area().findByAreaId(2072);
+// Find a specific area by ID
+Optional<Area> area = client.area().findByAreaId(2081);
 
-// Get team information
+// Find team information
 Optional<Team> team = client.team().findByTeamId(66);
 
-// Get match information
+// Find match information
 Optional<Match> match = client.match().findByMatchId(327856);
 
-// Get competition information
+// Get all Competitions
+Collection<Competition> competitions = client.competition().findAll();
+
+// Find competition information
 Optional<Competition> competition = client.competition().findByCompetitionId(2021);
+
+// Get all matches for a specific competition
+Collection<Match> matches = client.competition().findMatchesByCompetitionId(2021);
+
+// Get all teams for a specific competition
+Collection<Team> teams = client.competition().findTeamsByCompetitionId(2021);
+
+// Get all standings for a specific competition
+Collection<Standing> standings = client.competition().findStandingsByCompetitionId(2021);
+
 ```
-
-## Dependencies
-
-- Jackson (JSON processing)
-- Spring Web
-- JUnit, AssertJ, and Mockito (for testing)
-

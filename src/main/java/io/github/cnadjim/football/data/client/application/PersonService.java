@@ -17,6 +17,6 @@ public class PersonService implements PersonUseCase {
 
     @Override
     public Optional<Person> findByPersonId(long personId) {
-        return webClientService.GET(String.format("/persons/%s", personId), Person.class);
+        return webClientService.GET("/persons/" + personId, Person.class);
     }
 }
