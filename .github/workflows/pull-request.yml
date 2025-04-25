@@ -20,4 +20,6 @@ jobs:
           cache: maven
 
       - name: Build with Maven
+        env:
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
         run: mvn clean install
