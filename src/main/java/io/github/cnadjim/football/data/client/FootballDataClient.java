@@ -6,10 +6,10 @@ import io.github.cnadjim.football.data.client.api.match.MatchUseCase;
 import io.github.cnadjim.football.data.client.api.person.PersonUseCase;
 import io.github.cnadjim.football.data.client.api.team.TeamUseCase;
 import io.github.cnadjim.football.data.client.application.*;
-import io.github.cnadjim.football.data.client.infra.InMemoryTokenRegistry;
-import io.github.cnadjim.football.data.client.infra.JavaHttpConnector;
 import io.github.cnadjim.football.data.client.spi.HttpConnector;
 import io.github.cnadjim.football.data.client.spi.TokenRegistry;
+import io.github.cnadjim.football.data.client.stub.InMemoryTokenRegistry;
+import io.github.cnadjim.football.data.client.stub.JavaHttpConnector;
 
 import java.net.http.HttpClient;
 import java.util.Optional;
@@ -21,11 +21,11 @@ public record FootballDataClient(AreaUseCase area,
                                  CompetitionUseCase competition) {
 
     public static final class FootballDataClientBuilder {
-        TokenRegistry tokenRegistry;
         HttpConnector httpConnector;
+        TokenRegistry tokenRegistry = new InMemoryTokenRegistry();
 
-        public FootballDataClientBuilder tokenRegistry(TokenRegistry tokenRegistry) {
-            this.tokenRegistry = tokenRegistry;
+        public FootballDataClientBuilder addToken(String token) {
+            this.tokenRegistry.addToken(token);
             return this;
         }
 
@@ -35,7 +35,6 @@ public record FootballDataClient(AreaUseCase area,
         }
 
         public FootballDataClient build() {
-            final TokenRegistry tokenRegistry = Optional.ofNullable(this.tokenRegistry).orElseGet(InMemoryTokenRegistry::new);
             final HttpConnector httpConnector = Optional.ofNullable(this.httpConnector).orElseGet(() -> new JavaHttpConnector(HttpClient.newHttpClient()));
             final TokenService tokenService = new TokenService(tokenRegistry);
 

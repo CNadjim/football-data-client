@@ -7,5 +7,5 @@ import java.util.Map;
 
 public interface HttpConnector {
 
-    <RESPONSE_TYPE> ClientResponse<RESPONSE_TYPE> send(URI uri, Map<String, String> headers, Class<RESPONSE_TYPE> responseType) throws Exception;
+    <RESPONSE_TYPE> ClientResponse<RESPONSE_TYPE> send(URI uri, Map<String, String> headers, Class<RESPONSE_TYPE> responseType);
 }

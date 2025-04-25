@@ -1,16 +1,15 @@
 package io.github.cnadjim.football.data.client.api;
 
 import io.github.cnadjim.football.data.client.FootballDataClient;
-import io.github.cnadjim.football.data.client.infra.InMemoryTokenRegistry;
-import io.github.cnadjim.football.data.client.spi.TokenRegistry;
+import io.github.cnadjim.football.data.client.spi.HttpConnector;
+import org.mockito.Mockito;
 
 public abstract class UseCaseTest {
 
-    private final String token = System.getenv().getOrDefault("FOOTBALL_DATA_TOKEN", null);
-
-    private final TokenRegistry tokenRegistry = InMemoryTokenRegistry.of(token);
+    protected final HttpConnector httpConnector = Mockito.mock(HttpConnector.class);
 
     protected final FootballDataClient footballDataHttpClient = new FootballDataClient.FootballDataClientBuilder()
-            .tokenRegistry(tokenRegistry)
+            .httpConnector(httpConnector)
+            .addToken("token1")
             .build();
 }

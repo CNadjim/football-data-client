@@ -9,6 +9,8 @@ import static java.util.Objects.isNull;
 
 public interface TokenRegistry {
 
+    void addToken(String token);
+
     Collection<String> findAll();
 
     default Iterator<String> iterator() {

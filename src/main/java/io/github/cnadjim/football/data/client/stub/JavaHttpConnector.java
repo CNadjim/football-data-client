@@ -1,7 +1,8 @@
-package io.github.cnadjim.football.data.client.infra;
+package io.github.cnadjim.football.data.client.stub;
 
 import io.github.cnadjim.football.data.client.annotation.Stub;
 import io.github.cnadjim.football.data.client.domain.response.ClientResponse;
+import io.github.cnadjim.football.data.client.domain.response.ErrorResponse;
 import io.github.cnadjim.football.data.client.spi.HttpConnector;
 
 import java.net.URI;
@@ -31,13 +32,14 @@ public class JavaHttpConnector implements HttpConnector {
 
         try {
             final HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder().uri(uri);
+
             Optional.ofNullable(headers)
                     .orElse(new HashMap<>())
                     .forEach(httpRequestBuilder::header);
 
             return httpClient.send(httpRequestBuilder.build(), JacksonBoyHandler.of(responseType)).body();
         } catch (Exception exception) {
-            throw new RuntimeException(exception);
+            return ClientResponse.error(ErrorResponse.internalServerError(exception.getMessage()));
         }
     }
 }
